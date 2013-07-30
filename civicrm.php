@@ -48,7 +48,7 @@ License: AGPL3
 WordPress resources for developers
 --------------------------------------------------------------------------------
 Not that they're ever adhered to anywhere other than core, but people do their
-best to comply...
+best to comply... but clearly not CiviCRM developers!
 
 WordPress core coding standards:
 http://make.wordpress.org/core/handbook/coding-standards/php/
@@ -336,6 +336,9 @@ class CiviCRM_For_WordPress {
         return FALSE;
       }
 
+      // access global set by CiviCRM
+      global $civicrm_root;
+
       // this does pretty much all of the civicrm initialization
       if ( ! file_exists( $civicrm_root . 'CRM/Core/Config.php' ) ) {
         $error = FALSE;
@@ -402,7 +405,8 @@ class CiviCRM_For_WordPress {
 
 
   /**
-   * @description: invoke CiviCRM in a WordPress context
+   * @description: "invoke" CiviCRM in a WordPress context - ie CiviCRM will not
+   * just be initialised, but also output something based on $_GET['q']
    * Callback function from add_menu_page()
    * Callback from WordPress 'init' and 'the_content' hooks
    * Also called by add_shortcode_includes() and _civicrm_update_user()
@@ -434,8 +438,7 @@ class CiviCRM_For_WordPress {
 
     // CRM-95XX
     // At this point we are calling a civicrm function
-    // Since WP messes up and always quotes the request, we need to reverse
-    // what it just did
+    // Since WP quotes the request, we need to reverse what it just did
     $this->remove_wp_magic_quotes();
 
     if ( isset( $_GET['q'] ) ) {
