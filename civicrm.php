@@ -982,8 +982,9 @@ class CiviCRM_For_WordPress {
 
       require_once 'CRM/Core/BAO/UFMatch.php';
 
-      // this does not return anything, so if we want to do anything further
-      // to the CiviCRM Contact, we have to search for it all over again...
+      // this does not return anything, so if we want to do anything further to the 
+      // CiviCRM Contact, we have to search for it all over again...
+      // BUT, there's a lot of other stuff being done by synchronize() so do it anyway
       CRM_Core_BAO_UFMatch::synchronize(
         $user, // user object
         TRUE, // update = true
@@ -991,20 +992,18 @@ class CiviCRM_For_WordPress {
         'Individual' // contact type
       );
 
-      /*
-      // IN progress: synchronizeUFMatch does return the contact object, however
+      // CRM_Core_BAO_UFMatch::synchronizeUFMatch does return the contact object
       $civi_contact = CRM_Core_BAO_UFMatch::synchronizeUFMatch(
         $user, // user object
         $user->ID, // ID
-        $user->user_mail, // unique identifier
-        null // unused
-        'WordPress' // CMS
+        $user->user_email, // unique identifier
+        'WordPress', // CMS
+        null, // status (unused)
         'Individual' // contact type
       );
-
+      
       // now we can allow other plugins to do their thing
       do_action( 'civicrm_contact_synced', $user, $civi_contact );
-      */
 
     }
 
