@@ -992,6 +992,7 @@ class CiviCRM_For_WordPress {
         'Individual' // contact type
       );
 
+      /*
       // CRM_Core_BAO_UFMatch::synchronizeUFMatch does return the contact object
       $civi_contact = CRM_Core_BAO_UFMatch::synchronizeUFMatch(
         $user, // user object
@@ -1004,6 +1005,7 @@ class CiviCRM_For_WordPress {
       
       // now we can allow other plugins to do their thing
       do_action( 'civicrm_contact_synced', $user, $civi_contact );
+      */
 
     }
 
